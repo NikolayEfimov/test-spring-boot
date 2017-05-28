@@ -6,10 +6,16 @@ import javax.persistence.*;
 @Table(name = "Person")
 public class Person {
 
+    public Person() {
+    }
+
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID")
     private Long id;
+    @Column(name = "NAME")
     private String name;
+    @Column(name = "AGE")
     private Integer age;
 
     public String getName() {
