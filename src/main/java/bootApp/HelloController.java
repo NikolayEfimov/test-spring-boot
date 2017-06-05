@@ -5,13 +5,14 @@ import bootApp.entities.Person;
 import bootApp.repositories.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.SQLException;
+import java.util.Random;
 
 @RestController
 public class HelloController {
@@ -48,21 +49,24 @@ public class HelloController {
 
 
     @RequestMapping("/person/{id}")
-    Person getPerson(@PathVariable("id") Long id) {
-        try {
-            System.out.println("id = " + id);
-            Connection connection = dataSource.getConnection();
-            Person vasia = new Person();
-            vasia.setId(3L);
-            vasia.setName("Vasia");
-            vasia.setAge(30);
-            personRepository.save(vasia);
-            Person byName = personRepository.findById(id);
-            System.out.println("byName = " + byName);
-            return byName;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
+    Person addPerson(@PathVariable("id") Long id) {
+        Person person = new Person();
+        person.setId(id);
+        person.setName("person " + id);
+        person.setAge(new Random().nextInt());
+        return personRepository.save(person);
+    }
+
+    @RequestMapping(value = "/person/{id}")
+    Person findById(@PathVariable("id") Long id) {
+        Person byName = personRepository.findById(id);
+        System.out.println("byName = " + byName);
+        return byName;
+    }
+
+    @RequestMapping(value = "/person/{id}",method = RequestMethod.DELETE)
+    ResponseEntity delete(@PathVariable("id") Long id) {
+        personRepository.delete(id);
+        return ResponseEntity.ok().build();
     }
 }
