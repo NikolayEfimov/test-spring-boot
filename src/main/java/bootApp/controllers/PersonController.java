@@ -14,12 +14,13 @@ import java.util.Random;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @RestController
+@RequestMapping("/person")
 public class PersonController {
 
     @Autowired
     private PersonService personService;
 
-    @RequestMapping(value = "/person/{id}", method = POST)
+    @RequestMapping(value = "/{id}", method = POST)
     Person addPerson(@PathVariable("id") Long id) {
         Person person = new Person();
         person.setId(id);
@@ -28,14 +29,14 @@ public class PersonController {
         return personService.save(person);
     }
 
-    @RequestMapping(value = "/person/{id}")
+    @RequestMapping(value = "/{id}")
     Person findById(@PathVariable("id") Long id) {
         Person byName = personService.findById(id);
         System.out.println("byName = " + byName);
         return byName;
     }
 
-    @RequestMapping(value = "/person/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     ResponseEntity delete(@PathVariable("id") Long id) {
         personService.delete(id);
         return ResponseEntity.ok().build();

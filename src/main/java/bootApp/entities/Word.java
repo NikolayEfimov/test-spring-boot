@@ -1,7 +1,7 @@
 package bootApp.entities;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.Map;
 
 @Entity
 public class Word {
@@ -16,10 +16,21 @@ public class Word {
 
     @ElementCollection
     @CollectionTable(name = "MEANING")
-    private List<String> meaningList;
+    @MapKeyColumn(name = "value")
+    @Column(name = "example")
+    private Map<String, String> meaningMap;
 
     @Column(name = "TRANSCRIPTION")
     private String transcription;
 
 
+    @Override
+    public String toString() {
+        return "Word{" +
+                "id=" + id +
+                ", value='" + value + '\'' +
+                ", meaningMap=" + meaningMap +
+                ", transcription='" + transcription + '\'' +
+                '}';
+    }
 }
