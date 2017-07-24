@@ -21,7 +21,6 @@ import javax.sql.DataSource;
         entityManagerFactoryRef = "localEntityManagerFactory",
         transactionManagerRef = "localTransactionManager",
         basePackages = "bootApp.repositories"
-
 )
 public class DataSourceConfig {
 
